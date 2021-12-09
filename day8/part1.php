@@ -1,6 +1,6 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
 
     $total = 0;
 
@@ -10,4 +10,4 @@
         }
     }
 
-    echo 'solution: '.$total;
+    Solver::setResult($total);

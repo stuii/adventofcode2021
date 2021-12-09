@@ -1,6 +1,6 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
 
     $locations = [];
 
@@ -37,7 +37,7 @@
             }
 
             if($isLowest){
-                echo 'location at ['.$y.','.$x.'] is a low point with height '.$currentHeight."\r\n";
+                //echo 'location at ['.$y.','.$x.'] is a low point with height '.$currentHeight."\r\n";
                 $risk += (1 + $currentHeight);
             }
 
@@ -45,4 +45,4 @@
     }
 
 
-    echo 'solution: '.$risk;
+    Solver::setResult($risk);

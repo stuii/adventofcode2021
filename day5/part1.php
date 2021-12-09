@@ -1,6 +1,6 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
 
     $lineCoords = [];
 
@@ -21,10 +21,9 @@
     }
 
 
-    drawPlot($plot);
-    echo 'maxOverlaps: '.calculateMaxOverlaps($plot);
-    echo 'solution: '.calculateOverlaps($plot);
-    die();
+//    drawPlot($plot);
+//    echo 'maxOverlaps: '.calculateMaxOverlaps($plot);
+    Solver::setResult(calculateOverlaps($plot));
 
 
     function calculateMaxOverlaps($plot){

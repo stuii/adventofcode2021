@@ -1,6 +1,6 @@
 <?php
 
-    $input = Solver::getInput();
+    $input = trim(file_get_contents('./input.txt'));
 
     $segmentValues = [
         [1,1,1,0,1,1,1],
@@ -26,13 +26,6 @@
         $input = explode(' ',$input);
         $encoded = explode(' ',$encoded);
 
-
-        // because we get every number with the input, we can determine, which segment has to go where
-        // for example, in the 10 digits, segment e only is turned on in 4 of them (0,2,6,8)
-        // segment e is the only segment, that occurs in only 4 digits
-        // therefore we can safely say, which value corresponds to segment e
-
-        // count the number of occurrences of each segment
         $segmentOccurrences = [0,0,0,0,0,0,0];
         foreach($input as $item){
             foreach(str_split($item) as $seg){
@@ -95,4 +88,4 @@
         $total += (int)$decodedNumber;
     }
 
-    Solver::setResult($total);
+    echo 'solution: '.$total;

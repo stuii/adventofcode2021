@@ -1,6 +1,6 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
     $instructions = [];
     $boards = [];
 
@@ -39,8 +39,8 @@
                 }
                 sort($boards);
             } else {
-                echo 'score: '.(sumOfUnsolved($boards[$solvedBoards[0]]) * $instruction)."\r\n";
-                die();
+                Solver::setResult(sumOfUnsolved($boards[$solvedBoards[0]]) * $instruction);
+                Solver::stop();
             }
         }
     }

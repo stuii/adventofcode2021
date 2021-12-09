@@ -1,6 +1,6 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
     $input = explode(',', $input);
 
     $lanternfishes = array_fill(0,9,0);
@@ -22,6 +22,8 @@
         }
         $lanternfishes = $newLanternfishes;
 
-    echo 'day '.($i + 1).': '.array_sum(array_values($lanternfishes))."\r\n";
+    //echo 'day '.($i + 1).': '.array_sum(array_values($lanternfishes))."\r\n";
     }
+
+    Solver::setResult(array_sum(array_values($lanternfishes)));
 

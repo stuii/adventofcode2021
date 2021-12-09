@@ -1,6 +1,6 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
 
     $crabs = explode(',', $input);
 
@@ -25,4 +25,4 @@
     unset($fuel);
     asort($positions);
 
-    echo 'solution: '.array_shift($positions);
+    Solver::setResult(array_shift($positions));

@@ -1,6 +1,6 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
     $gamma = 0;
     $epsilon = 0;
 
@@ -20,6 +20,4 @@
 
     $gamma = bindec($gamma);
     $epsilon = bindec($epsilon);
-    echo 'gamma: '.$gamma."\r\n";
-    echo 'epsilon: '.$epsilon."\r\n";
-    echo 'solution: '.($gamma * $epsilon);
+    Solver::setResult($gamma * $epsilon);

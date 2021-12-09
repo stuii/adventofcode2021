@@ -1,6 +1,6 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
     $instructions = [];
     $boards = [];
 
@@ -33,9 +33,11 @@
         }
         $solve = checkForSolve($boards);
         if($solve !== false){
-            echo 'instruction: '.$instruction."\r\n";
-            echo 'score: '.($solve * $instruction)."\r\n";
-            die();
+            //echo 'instruction: '.$instruction."\r\n";
+            //Solver::setResult((string)($solve * $instruction));
+
+            Solver::setResult(($solve * $instruction));
+            Solver::stop();
         }
     }
 

@@ -1,9 +1,8 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
     $lanternfishes = explode(',', $input);
 
-    var_dump($lanternfishes);
     for($i = 0; $i < 80; $i++){
         foreach($lanternfishes as $key => $timeout){
             if($timeout == 0){
@@ -15,4 +14,4 @@
         }
     }
 
-    echo count($lanternfishes);
+    Solver::setResult(count($lanternfishes));

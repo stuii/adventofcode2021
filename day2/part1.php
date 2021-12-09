@@ -1,6 +1,6 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
     $depth = 0;
     $horizontal = 0;
 
@@ -18,6 +18,4 @@
                 break;
         }
     }
-    echo 'depth: '.$depth."\r\n";
-    echo 'horizontal: '.$horizontal."\r\n";
-    echo 'solution: '.($depth * $horizontal);
+    Solver::setResult($depth * $horizontal);

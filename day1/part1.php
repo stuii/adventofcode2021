@@ -1,6 +1,6 @@
 <?php
 
-    $input = file_get_contents('./input.txt');
+    $input = Solver::getInput();
     $prevDepth = false;
     $increments = 0;
 
@@ -13,4 +13,4 @@
 
         $prevDepth = $depth;
     }
-    echo $increments;
+    Solver::setResult($increments);

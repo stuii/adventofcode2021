@@ -1,6 +1,7 @@
 <?php
 
-    $input = explode("\r\n", trim(file_get_contents('./input.txt')));
+    $input = Solver::getInput();
+    $input = explode("\r\n", $input);
     $oxygen = $input;
     $co2 = $input;
 
@@ -45,6 +46,4 @@
 
     $co2 = bindec($co2);
     $oxygen = bindec($oxygen);
-    echo 'co2: '.$co2."\r\n";
-    echo 'oxygen: '.$oxygen."\r\n";
-    echo 'solution: '.($co2 * $oxygen);
+    Solver::setResult($co2 * $oxygen);
