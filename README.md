@@ -87,4 +87,17 @@ Solution: 1070188 | Execution time: 13.1919ms
 ```shell
 php solve.php 9 1
 Solution: 530 | Execution time: 15.2400ms
+
+php solve.php 9 2
+Solution: 1019494 | Execution time: 54.3191ms
+```
+
+
+## Day 10: Syntax Scoring
+```shell
+php solve.php 10 1
+Solution: 294195 | Execution time: 6.3820ms
+
+php solve.php 10 2
+Solution: 3490802734 | Execution time: 6.6180ms
 ```
