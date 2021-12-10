@@ -1,91 +1,88 @@
 <?php
 
-    $input = trim(file_get_contents('./input.txt'));
+    $input = Solver::getInput();
 
-    $segmentValues = [
-        [1,1,1,0,1,1,1],
-        [0,0,1,0,0,1,0],
-        [1,0,1,1,1,0,1],
-        [1,0,1,1,0,1,1],
-        [0,1,1,1,0,1,0],
-        [1,1,0,1,0,1,1],
-        [1,1,0,1,1,1,1],
-        [1,0,1,0,0,1,0],
-        [1,1,1,1,1,1,1],
-        [1,1,1,1,0,1,1],
-    ];
+    $locations = [];
 
-
-    $total = 0;
-
-    foreach(explode("\r\n", $input) as $line){
-
-        $encodingMap = [false,false,false,false,false,false,false];
-
-        list($input, $encoded) = explode(' | ', $line);
-        $input = explode(' ',$input);
-        $encoded = explode(' ',$encoded);
-
-        $segmentOccurrences = [0,0,0,0,0,0,0];
-        foreach($input as $item){
-            foreach(str_split($item) as $seg){
-                $segmentOccurrences[ord($seg)-97]++;
-            }
+    foreach (explode("\r\n", $input) as $lineId => $line) {
+        $locations[$lineId] = [];
+        foreach (str_split($line) as $locationId => $location) {
+            $locations[$lineId][$locationId] = $location;
         }
-        // 4 occurrences = seg e[4]
-        // 6 occurrences = seg b[1]
-        // 9 occurrences = seg f[5]
-        // 8 occurrences = seg a[0] / c[2]
-        // 7 occurrences = seg d[3] / g[6]
-
-        $encodingMap[array_search(4, $segmentOccurrences)] = 4;
-        $encodingMap[array_search(6, $segmentOccurrences)] = 1;
-        $encodingMap[array_search(9, $segmentOccurrences)] = 5;
-
-
-        // find number 4
-        $numberFour = array_filter($input, function($a){if(strlen($a) == 4){ return true;}});
-        foreach(str_split(array_values($numberFour)[0]) as $seg){
-            if($encodingMap[ord($seg)-97] === false){
-                $encodingMap[ord($seg)-97] = $segmentOccurrences[ord($seg)-97] == 8 ? 2 : 3;
-            }
-        }
-
-
-        // find number 7
-        $numberSeven = array_filter($input, function($a){if(strlen($a) == 3){ return true;}});
-        foreach(str_split(array_values($numberSeven)[0]) as $seg){
-            if($encodingMap[ord($seg)-97] === false){
-                $encodingMap[ord($seg)-97] = 0;
-            }
-        }
-
-        $missingValue = array_keys(array_fill(0,7,true));
-        $missingKey = false;
-        foreach($encodingMap as $key => $item){
-            if($item !== false){
-                unset($missingValue[$item]);
-            } else {
-                $missingKey = $key;
-            }
-        }
-        $encodingMap[$missingKey] = array_keys($missingValue)[0];
-
-        // 🤩 wow full encoding map
-
-
-
-        // now onto decoding
-
-        $decodedNumber = '';
-        foreach($encoded as $encodedNumber){
-            $segments = [0,0,0,0,0,0,0];
-            foreach(str_split($encodedNumber) as $seg){
-                $segments[$encodingMap[ord($seg)-97]] = 1;
-            }
-            $decodedNumber .= array_search($segments, $segmentValues);
-        }
-        $total += (int)$decodedNumber;
     }
 
-    echo 'solution: '.$total;
+    $maxWidth = $locationId;
+    $maxHeight = $lineId;
+
+    $directions = [
+        [-1, 0],
+        [0, -1],
+        [1, 0],
+        [0, 1],
+    ];
+
+    $lowPoints = [];
+
+    $risk = 0;
+    for ($x = 0; $x <= $maxWidth; $x++) {
+        for ($y = 0; $y <= $maxHeight; $y++) {
+            $currentHeight = $locations[$y][$x];
+            $isLowest = true;
+
+            foreach ($directions as $modifier) {
+                if(isset($locations[$y+$modifier[0]][$x+$modifier[1]])){
+                    if($locations[$y+$modifier[0]][$x+$modifier[1]] <= $currentHeight){
+                        $isLowest = false;
+                    }
+                }
+            }
+
+            if($isLowest){
+                //echo 'location at ['.$y.','.$x.'] is a low point with height '.$currentHeight."\r\n";
+                $lowPoints[] = [$y,$x];
+            }
+
+        }
+    }
+
+    $basins = [];
+
+    foreach($lowPoints as $startingPoint){
+        $basin = [$startingPoint];
+        $lastPoints = $basin;
+
+        while(count($lastPoints) > 0){
+            $newPoints = [];
+
+            foreach($lastPoints as $point){
+                foreach ($directions as $modifier) {
+                    if(isset($locations[$point[0]+$modifier[0]][$point[1]+$modifier[1]])){
+                        if($locations[$point[0]+$modifier[0]][$point[1]+$modifier[1]] < 9){
+                            if(!in_array([($point[0]+$modifier[0]),($point[1]+$modifier[1])], [...$basin, ...$newPoints])) {
+                                $newPoints[] = [($point[0] + $modifier[0]), ($point[1] + $modifier[1])];
+                            }
+                        }
+                    }
+                }
+            }
+
+            $basin = [...$basin, ...$newPoints];
+            $lastPoints = $newPoints;
+        }
+        $basins[] = $basin;
+    }
+
+    usort($basins, function($a,$b){
+        return (count($a) <=> count($b))*-1;
+    });
+
+    $total = false;
+    foreach(array_slice($basins, 0,3) as $item){
+        if($total === false){
+            $total = count($item);
+        } else {
+            $total *= count($item);
+        }
+    }
+
+    Solver::setResult($total);
