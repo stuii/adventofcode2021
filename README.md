@@ -101,3 +101,13 @@ Solution: 294195 | Execution time: 6.3820ms
 php solve.php 10 2
 Solution: 3490802734 | Execution time: 6.6180ms
 ```
+
+
+## Day 11: Dumbo Octopus
+```shell
+php solve.php 11 1
+Solution: 1634 | Execution time: 9.8391ms
+
+php solve.php 10 2
+Solution: 3490802734 | Execution time: 6.6180ms
+```
