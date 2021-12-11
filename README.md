@@ -108,6 +108,6 @@ Solution: 3490802734 | Execution time: 6.6180ms
 php solve.php 11 1
 Solution: 1634 | Execution time: 9.8391ms
 
-php solve.php 10 2
-Solution: 3490802734 | Execution time: 6.6180ms
+php solve.php 11 2
+Solution: 210 | Execution time: 17.8220ms
 ```
